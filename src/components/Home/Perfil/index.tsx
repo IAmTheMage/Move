@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Modal} from 'react-native';
-import Video from '../Video';
 import { CategoryTitle,Category, CardsContainer, Container, Exercises, ExercisesContainer, Title } from './styles';
 
 const Home: React.FC = () => {
@@ -16,7 +15,7 @@ const Home: React.FC = () => {
   return (
     <Container>
       <Modal visible={videosModalIsOpen}>
-        <Video category={category}></Video>
+        
       </Modal>
       <Title>MOV<Title style={{color: "#28d8a1"}}>E</Title></Title>
       <ExercisesContainer>

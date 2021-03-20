@@ -7,7 +7,7 @@ const INITIAL_STATE: STATE = {
   fail: ""
 }
 
-function signUp(state = INITIAL_STATE,action: any) {
+function USER_SIGNUP_SUCCESS(state = INITIAL_STATE,action: any) {
   switch(action.type) {
     case 'USER_SIGNUP_SUCCESS':
       state = {success: true, fail: ""};
@@ -20,4 +20,4 @@ function signUp(state = INITIAL_STATE,action: any) {
   }
 }
 
-export default signUp;
+export default USER_SIGNUP_SUCCESS;
