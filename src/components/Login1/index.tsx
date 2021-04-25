@@ -1,15 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, ActivityIndicator, Modal } from 'react-native';
+import { ActivityIndicator, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import { Fragment } from 'react';
-import { Font } from 'expo';
 import { 
   Container,InputView,Input,Title, DontHaveAccountContainer, 
   DontHaveAccount, Link, LoginButton, ButtonText,
   ForgotPasswordContainer, ForgotPassword,
 } from './styled'
-import Lottie from 'lottie-react-native'
-import { Roboto_400Regular, useFonts } from '@expo-google-fonts/roboto';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import PasswordReset from '../../utils/components/PasswordReset';
@@ -52,11 +48,11 @@ const Login:React.FC = () => {
         <Title>MOV<Title style={{color: "#28d8a1"}}>E</Title></Title>
         <InputView>
           <MaterialIcons size={20} name="email" color="white"></MaterialIcons>
-          <Input value={email} style={{color: "white"}} onChangeText={(e) => {setEmail(e)}} placeholderTextColor="white" placeholder="Email"></Input>
+          <Input autoCapitalize={"none"} value={email} style={{color: "white"}} onChangeText={(e) => {setEmail(e)}} placeholderTextColor="white" placeholder="Email"></Input>
         </InputView>
         <InputView>
           <MaterialIcons size={20} name="lock" color="white"></MaterialIcons>
-          <Input  value={password} style={{color: "white"}} onChangeText={(e) => {setPassword(e)}} placeholderTextColor="white" secureTextEntry={true} placeholder="Senha"></Input>
+          <Input autoCapitalize={"none"} value={password} style={{color: "white"}} onChangeText={(e) => {setPassword(e)}} placeholderTextColor="white" secureTextEntry={true} placeholder="Senha"></Input>
         </InputView>
         <ForgotPasswordContainer onPress={() => {
           

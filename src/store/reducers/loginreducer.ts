@@ -13,7 +13,7 @@ function login(state = INITIAL_STATE,action: any) {
       state = {success: true, fail: ""};
       return state;
     case 'USER_LOGIN_FAIL':
-      state = {fail: "Algo deu errado, por favor tente novamente mais tarde", success: false};
+      state = {fail: action?.error || "Algo deu errado por favor tente novamente mais tarde", success: false};
       return state;
     case 'USER_LOGIN_EMAIL_NOT_VERIFIED':
       state = {success: false, fail: "Por favor verifique seu email para prosseguir"};

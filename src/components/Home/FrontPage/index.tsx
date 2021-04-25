@@ -17,7 +17,9 @@ const FrontPage: React.FC = () => {
 
   return (
     <ScrollView style={{width: '100%'}}>
-      <Modal transparent={true} visible={visible}>
+      <Modal onRequestClose={() => {
+        setVisible(false);
+      }} transparent={true} visible={visible}>
         <Video category={category}></Video>
       </Modal>
       <Container >

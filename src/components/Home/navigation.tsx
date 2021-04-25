@@ -2,6 +2,7 @@ import React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import FrontPage from './FrontPage'
+import Profile from './Profile';
 
 const Navigator = createBottomTabNavigator();
 
@@ -16,12 +17,16 @@ const HomeNavigation: React.FC = () => {
       tabBarIcon: (({focused, color, size}) => {
         let iconName: any = "";
         if(route.name == 'FrontPage') {
-          iconName = "home"
+          iconName = "home";
         }
-        return <MaterialIcons name={iconName} color="white" size={25}></MaterialIcons>
+        if(route.name == "Profile") {
+          iconName = "person";
+        }
+        return <MaterialIcons name={iconName} color={focused ? "#28d8a1" : "white"} size={25}></MaterialIcons>
       })
     })}>
       <Navigator.Screen component={FrontPage} name="FrontPage" />
+      <Navigator.Screen component={Profile} name="Profile" />
     </Navigator.Navigator>
   );
 }

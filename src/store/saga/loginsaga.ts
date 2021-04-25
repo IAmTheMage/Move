@@ -15,8 +15,8 @@ function* loginWithEmailAndPassword(payload: Login) {
       yield put({type: 'USER_LOGIN_EMAIL_NOT_VERIFIED'});
     }
   }
-  catch {
-    yield put({type: 'USER_LOGIN_FAIL'});
+  catch(e) {
+    yield put({type: 'USER_LOGIN_FAIL', error: e});
   }
 }
 

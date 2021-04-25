@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/auth'
 
+console.log(process.env.APIKEY)
 
 const firebaseConfig = {
   apiKey: process.env.APIKEY,
