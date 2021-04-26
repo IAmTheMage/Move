@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/auth'
 
-console.log(process.env.APIKEY)
+console.log(process.env.APIKEY  + "wdsad")
 
 const firebaseConfig = {
   apiKey: process.env.APIKEY,

@@ -34,7 +34,7 @@ const Video: React.FC<Props> = ({category}) => {
   const [upAndDownAnimation, setUpAndDownAnimation] = useState<Animated.Value>(new Animated.Value(0));
 
   useEffect(() => {
-    //getVideo();
+    getVideo();
     animate();
   }, [])
 

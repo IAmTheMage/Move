@@ -10,6 +10,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import PasswordReset from '../../utils/components/PasswordReset';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import firebase from '../../env/firebase';
 
 
 // import { Container } from './styles';
@@ -22,6 +23,12 @@ const Login:React.FC = () => {
   const [password, setPassword] = useState<string>(process.env.PASSWORDUTIL || "");
   const [isLoad, setIsLoad] = useState<boolean>(false);
   const navigator = useNavigation();
+
+  firebase.auth().onAuthStateChanged(user => {
+    if(user) {
+      navigator.navigate('Home');
+    }
+  })
 
   useEffect(() => {
     if(login?.success) {
