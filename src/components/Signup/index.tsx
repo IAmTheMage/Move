@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { View, Text, ActivityIndicator, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Fragment } from 'react';
-import { Font } from 'expo';
 import { 
   Container,InputView,Input,Title, DontHaveAccountContainer, 
   DontHaveAccount, Link, LoginButton, ButtonText,
