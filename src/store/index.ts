@@ -7,6 +7,7 @@ import signUpSaga from './saga/signupsaga';
 import resetPasswordModal from './reducers/resetPasswordModalReducer';
 import resetPassword from './reducers/resetpasswordreducer';
 import resetPasswordSaga from './saga/passwordresetsaga';
+import videoSaga from './saga/videosaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -17,5 +18,6 @@ const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(signUpSaga);
 sagaMiddleware.run(resetPasswordSaga);
+sagaMiddleware.run(videoSaga);
 
 export default store;

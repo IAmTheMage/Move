@@ -1,5 +1,5 @@
-import { call, takeLatest, put } from 'redux-saga/effects';
-import firebase from '../../env/firebase';
+import { takeLatest, put } from 'redux-saga/effects';
+import firebase, {Database} from '../../env/firebase';
 import fire from 'firebase';
 import { Action } from 'redux';
 
@@ -9,10 +9,22 @@ interface Payload extends Action {
   password: string;
 }
 
+function getDateInBrasilFormat() {
+  const day = new Date().getDate();
+  const month = new Date().getMonth();
+  const year = new Date().getFullYear();
+  return `${day}/${month + 1}/${year}`;
+}
+
 function* signUpWithEmailAndPassword(payload: Payload) {
   try {
     const {name, email, password} = payload;
     const user: fire.auth.UserCredential = yield firebase.auth().createUserWithEmailAndPassword(email, password);
+    yield Database.collection('users').doc(user.user?.uid).set({
+      date: getDateInBrasilFormat(),
+      seriesCompleted: 0,
+      exercisesCompleted: 0,
+    })
     yield user.user?.updateProfile({
       displayName: name
     });
