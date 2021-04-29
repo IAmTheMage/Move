@@ -20,7 +20,9 @@ const FrontPage: React.FC = () => {
       <Modal onRequestClose={() => {
         setVisible(false);
       }} transparent={true} visible={visible}>
-        <Video category={category}></Video>
+        <Video onClose={() => {
+          setVisible(false);
+        }} category={category}></Video>
       </Modal>
       <Container >
         <Title>MOV<Title style={{color: "#28d8a1"}}>E</Title></Title>
