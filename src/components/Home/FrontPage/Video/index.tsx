@@ -1,15 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import {Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import {Video as VideoPlayer, Audio} from 'expo-av';
-import { Container, VideoContainer, Title } from './styles';
+import { Container, VideoContainer, Title, FinishContainer,
+  Column, FinishTitle, FinishText, CloseButton, CloseText
+} from './styles';
 import {Database, Storage} from '../../../../env/firebase';
 import {useDispatch} from 'react-redux';
 import fire from 'firebase';
 import { ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import Lottie from 'lottie-react-native';
+
+import sleep from '../../../../../assets/lottie/sleep.json';
 
 interface Props {
   category: string;
+  onClose: () => void;
 }
 
 const CATEGORYREFS: any = {
@@ -26,14 +32,15 @@ interface VideoInformations {
   repetitions: number;
 }
 
-const Video: React.FC<Props> = ({category}) => {
+const Video: React.FC<Props> = ({category, onClose}) => {
   const dispatcher = useDispatch();
-  const [offset, setOffset] = useState<number>(1);
+  const [offset, setOffset] = useState<number>(5);
   const [uri, setUri] = useState<string>("");
   const [audioUri, setAudioUri] = useState<string>("");
   const [isLoad, setIsLoad] = useState<boolean>(true);
   const [title, setTitle] = useState<string>("");
   const [upAndDownAnimation, setUpAndDownAnimation] = useState<Animated.Value>(new Animated.Value(0));
+  const [renderFinishAnimation, setRenderFinishAnimation] = useState<boolean>(false);
 
   useEffect(() => {
     getVideo();
@@ -58,7 +65,7 @@ const Video: React.FC<Props> = ({category}) => {
   }
 
   async function getVideo(initialValue: any = null) {
-    const resp: fire.firestore.QuerySnapshot<fire.firestore.DocumentData> = initialValue || await Database.collection(category).orderBy('name').startAt(offset).limit(1).get();
+    const resp: fire.firestore.QuerySnapshot<fire.firestore.DocumentData> = await Database.collection(category).where('name', '==', `${CATEGORYREFS[category]} ${offset}`).limit(1).get();
     let data: any = [];
     resp.forEach(element => {
       data.push(element.data());
@@ -99,40 +106,59 @@ const Video: React.FC<Props> = ({category}) => {
   }
 
   async function nextVideo() {
+    setOffset(offset + 1);
     dispatcher({type: 'END_VIDEO'})
     setIsLoad(false);
-    const resp: fire.firestore.QuerySnapshot<fire.firestore.DocumentData> = await Database.collection(category).where('name', '==', `${CATEGORYREFS[category]} ${offset + 1}`).limit(1).get();
+    const resp: fire.firestore.QuerySnapshot<fire.firestore.DocumentData> = await Database.collection(category).where('name', '==', `${CATEGORYREFS[category]} ${offset}`).limit(1).get();
+    let data: any[] = [];
     resp.forEach(snapshot => {
-      console.log(snapshot.data());
+      data.push(snapshot.data());
     })
-    setOffset(offset + 1);
+    if(data.length === 0) {
+      setRenderFinishAnimation(true);
+    }
     getVideo(resp);
   }
 
   return (
-    <Container>
-      {isLoad && <Title>{title}</Title>}
-      <VideoContainer>
-        {
-          isLoad ? <VideoPlayer resizeMode="cover" shouldPlay isLooping={true} onLoad={execSound} source={{uri}} style={{width: '100%', height: '100%'}}></VideoPlayer> 
-          : 
-          <ActivityIndicator size="small" color="#28d8a1" style={{marginTop: 50}}></ActivityIndicator>
-        }
-      </VideoContainer>
-      {isLoad && 
-        <Animated.View style={{...styles.NextVideoContainer, transform: [
-          {
-            translateY: upAndDownAnimation
+    <>
+      {!renderFinishAnimation ? 
+        <Container>
+          {isLoad && <Title>{title}</Title>}
+          <VideoContainer>
+            {
+              isLoad ? <VideoPlayer resizeMode="cover" shouldPlay isLooping={true} onLoad={execSound} source={{uri}} style={{width: '100%', height: '100%'}}></VideoPlayer> 
+              : 
+              <ActivityIndicator size="small" color="#28d8a1" style={{marginTop: 50}}></ActivityIndicator>
+            }
+          </VideoContainer>
+          {isLoad && 
+            <Animated.View style={{...styles.NextVideoContainer, transform: [
+              {
+                translateY: upAndDownAnimation
+              }
+            ]}}>
+              <TouchableOpacity onPress={() => {
+                nextVideo();
+              }}>
+                <MaterialIcons name="arrow-drop-down" size={60} color="white"></MaterialIcons>
+              </TouchableOpacity>
+            </Animated.View>
           }
-        ]}}>
-          <TouchableOpacity onPress={() => {
-            nextVideo();
-          }}>
-            <MaterialIcons name="arrow-drop-down" size={60} color="white"></MaterialIcons>
-          </TouchableOpacity>
-        </Animated.View>
+        </Container>
+        :
+        <FinishContainer>
+          <Column>
+            <Lottie source={sleep} style={{width: 250, height: 250}}></Lottie>
+            <FinishTitle>Ufa...acabou</FinishTitle>
+            <FinishText>Agora descanse um pouco, bebe uma água e reponha as energias antes de começar outra série.</FinishText>
+          </Column>
+          <CloseButton onPress={onClose}>
+            <CloseText>Fechar</CloseText>
+          </CloseButton>
+        </FinishContainer>
       }
-    </Container>
+    </>
   );
 }
 

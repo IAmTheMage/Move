@@ -12,7 +12,8 @@ import Navigation from './src/navigation';
 export default function App() {
   const [loaded] = useFonts({
     'PoppinsRegular': require('./assets/fonts/Poppins-Regular.ttf'),
-    'PoppinsBold': require('./assets/fonts/Poppins-Bold.ttf')
+    'PoppinsBold': require('./assets/fonts/Poppins-Bold.ttf'),
+    'PoppinsSemiBold': require('./assets/fonts/Poppins-SemiBold.ttf'),
   })
   LogBox.ignoreAllLogs()
 
