@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {Animated, StyleSheet, TouchableOpacity} from 'react-native';
 import {Video as VideoPlayer, Audio} from 'expo-av';
 import { Container, VideoContainer, Title } from './styles';
-import firebase, {Database, Storage} from '../../../../env/firebase';
+import {Database, Storage} from '../../../../env/firebase';
+import {useDispatch} from 'react-redux';
 import fire from 'firebase';
 import { ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -26,6 +27,7 @@ interface VideoInformations {
 }
 
 const Video: React.FC<Props> = ({category}) => {
+  const dispatcher = useDispatch();
   const [offset, setOffset] = useState<number>(1);
   const [uri, setUri] = useState<string>("");
   const [audioUri, setAudioUri] = useState<string>("");
@@ -97,6 +99,7 @@ const Video: React.FC<Props> = ({category}) => {
   }
 
   async function nextVideo() {
+    dispatcher({type: 'END_VIDEO'})
     setIsLoad(false);
     const resp: fire.firestore.QuerySnapshot<fire.firestore.DocumentData> = await Database.collection(category).where('name', '==', `${CATEGORYREFS[category]} ${offset + 1}`).limit(1).get();
     resp.forEach(snapshot => {

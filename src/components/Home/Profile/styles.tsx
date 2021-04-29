@@ -26,5 +26,5 @@ export const Info = styled.Text`
   margin-left: 10px;
   color: white;
   margin-top: 6px;
-  margin-top: 20px;
+  margin-top: 30px;
 `;
