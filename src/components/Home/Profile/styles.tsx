@@ -44,31 +44,54 @@ export const IconContainer = styled.TouchableOpacity`
   margin-top: 60px;
 `;
 
-export const ProfileImage = styled.ImageBackground`
+export const Center = styled.View`
+  width: 100%;
+  align-items: center;
+  margin-top: 14%;
+`;
+
+export const ProfileImage = styled.Image`
   width: 100px;
   height: 100px;
   border-radius: 50px;
 `;
 
 export const CameraContainer = styled.View`
-  position: absolute;
-  bottom: 0;
-  flex-direction: row;
-  flex: 1;
   width: 100%;
-  padding: 20px;
-  justify-content: space-between;
+  height: 100%;
+  justify-content: flex-end;
+  flex-direction: column;
+  flex: 1;
 `;
 
-export const Row = styled.View`
-  width: 100%;
-  flex-direction: row;
-  position: absolute;
-  height: 100%;
-  justify-content: space-between;
-`;
 
 export const CameraIcon = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
+`;
+
+export const ProfileName = styled.Text`
+  font-size: 16px;
+  color: white;
+  font-family: 'PoppinsSemiBold';
+  margin-top: 20px;
+`;
+
+export const InformationsContainerRow = styled.View`
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px;
+  margin-top: 18px;
+`;
+
+export const InformationContainerColumn = styled.View`
+  align-items: center;
+`;
+
+export const Information = styled.Text`
+  font-size: 14px;
+  font-family: 'PoppinsRegular';
+  color: white;
 `;
