@@ -11,9 +11,19 @@ function* endVideo() {
   })
 }
 
+function* endSerie() {
+  const userInfo: fire.firestore.DocumentSnapshot<fire.firestore.DocumentData> = yield Database.collection('users').doc(firebase.auth().currentUser?.uid).get();
+  const userData = userInfo.data();
+  yield Database.collection('users').doc(firebase.auth().currentUser?.uid).set({
+    ...userData,
+    seriesCompleted: userData?.seriesCompleted + 1,
+  })
+}
+
 
 function* videoSaga() {
   yield takeLatest('END_VIDEO', endVideo);
+  yield takeLatest('END_SERIE', endSerie);
 }
 
 export default videoSaga;

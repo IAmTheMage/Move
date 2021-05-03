@@ -34,7 +34,7 @@ interface VideoInformations {
 
 const Video: React.FC<Props> = ({category, onClose}) => {
   const dispatcher = useDispatch();
-  const [offset, setOffset] = useState<number>(5);
+  const [offset, setOffset] = useState<number>(1);
   const [uri, setUri] = useState<string>("");
   const [audioUri, setAudioUri] = useState<string>("");
   const [isLoad, setIsLoad] = useState<boolean>(true);
@@ -116,6 +116,7 @@ const Video: React.FC<Props> = ({category, onClose}) => {
     })
     if(data.length === 0) {
       setRenderFinishAnimation(true);
+      dispatcher({type: 'END_SERIE'});
     }
     getVideo(resp);
   }
