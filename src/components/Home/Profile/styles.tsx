@@ -13,8 +13,8 @@ export const Container = styled.View`
 `;
 
 export const Title = styled.Text`
-  font-size: 20px;
-  font-family: 'PoppinsBold';
+  font-size: 18px;
+  font-family: 'PoppinsSemiBold';
   margin-left: 10px;
   color: white;
   margin-top: 28px;
@@ -45,6 +45,11 @@ export const IconContainer = styled.TouchableOpacity`
 `;
 
 export const Center = styled.View`
+  width: 100%;
+  align-items: center;
+`;
+
+export const CenterTouchable = styled.TouchableOpacity`
   width: 100%;
   align-items: center;
   margin-top: 14%;
@@ -85,13 +90,41 @@ export const InformationsContainerRow = styled.View`
   padding: 5px;
   margin-top: 18px;
 `;
-
+ 
 export const InformationContainerColumn = styled.View`
   align-items: center;
+  width: 50%;
+  justify-content: center;
 `;
 
 export const Information = styled.Text`
   font-size: 14px;
   font-family: 'PoppinsRegular';
   color: white;
+`;
+
+export const Input = styled.TextInput`
+  width: 90%;
+  background-color: #212121;
+  border-radius: 4px;
+  height: 50px;
+  margin-top: 20px;
+  padding: 10px;
+`;
+
+export const ButtonContainer = styled.TouchableOpacity`
+  width: 90%;
+  height: 40px;
+  padding: 5px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background-color:#28d8a1;
+  margin-top: 20px;
+`;
+
+export const ButtonText = styled.Text`
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
 `;

@@ -21,6 +21,7 @@
     "@types/styled-components": "^5.1.7",
     "@types/styled-components-react-native": "^5.1.1",
     "babel-plugin-inline-dotenv": "^1.6.0",
+    "date-fns": "^2.21.1",
     "expo": "^41.0.0",
     "expo-app-loading": "^1.0.1",
     "expo-av": "~9.1.2",
