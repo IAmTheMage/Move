@@ -50,6 +50,12 @@ export const Center = styled.View`
   margin-top: 14%;
 `;
 
+export const CenterTouchable = styled.TouchableOpacity`
+  width: 100%;
+  align-items: center;
+  margin-top: 14%;
+`;
+
 export const ProfileImage = styled.Image`
   width: 100px;
   height: 100px;
@@ -85,9 +91,11 @@ export const InformationsContainerRow = styled.View`
   padding: 5px;
   margin-top: 18px;
 `;
-
+ 
 export const InformationContainerColumn = styled.View`
   align-items: center;
+  width: 50%;
+  justify-content: center;
 `;
 
 export const Information = styled.Text`

@@ -13,7 +13,7 @@ function getDateInBrasilFormat() {
   const day = new Date().getDate();
   const month = new Date().getMonth();
   const year = new Date().getFullYear();
-  return `${day}/${month + 1}/${year}`;
+  return `${day > 10 ? day : "0" + day.toString()}/${month + 1 > 10 ? month + 1 : "0" + month.toString()}/${year}`;
 }
 
 function* signUpWithEmailAndPassword(payload: Payload) {
