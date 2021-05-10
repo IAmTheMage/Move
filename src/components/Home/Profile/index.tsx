@@ -160,6 +160,10 @@ const Profile: React.FC = () => {
               }
             </CenterHorizontaly>
             <Title>Alterar senha</Title>
+            {
+              // ERROR HERE
+              //resetPasswordSelector?.changePasswordSuccess && <Componente />
+            }
             <Center>
               <Input autoCapitalize="none" value={currentPassword} onChangeText={(e) => {
                 setCurrentPassword(e);

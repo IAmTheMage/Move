@@ -34,6 +34,10 @@ const SignUp:React.FC = () => {
 
   return (
     <Fragment>
+      {
+        //Error Here
+        //signUpState?.fail.length > 0 && <Component />
+      }
       <Container>
         <TouchableHighlight onPress={() => {
           setIsLoading(false);
