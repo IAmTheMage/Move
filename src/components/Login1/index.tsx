@@ -36,12 +36,6 @@ const Login:React.FC = () => {
     }
   }, [login?.success])
 
-  useEffect(() => {
-    if(login?.fail) {
-      console.log("Deu ruim" + " " + login?.fail);
-    }
-  }, [login?.fail])
-
   function openResetPasswordModal() {
     dispatcher({type: 'OPEN_RESETPASSWORD_MODAL'})
   }
@@ -51,6 +45,10 @@ const Login:React.FC = () => {
       <Modal transparent={true} visible={resetPasswordModal?.isOpen}>
         <PasswordReset></PasswordReset>
       </Modal>
+      {
+        //Error Here
+        //login?.fail && <Component />
+      }
       <Container>
         <Title>MOV<Title style={{color: "#28d8a1"}}>E</Title></Title>
         <InputView>
