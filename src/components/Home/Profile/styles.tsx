@@ -1,9 +1,4 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-
 
 export const Container = styled.View`
   width: 100%;
@@ -12,12 +7,19 @@ export const Container = styled.View`
   background-color: #0f0f0f;
 `;
 
+export const Header = styled.View`
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  margin-top: 28px;
+`;
+
 export const Title = styled.Text`
   font-size: 18px;
   font-family: 'PoppinsSemiBold';
   margin-left: 10px;
   color: white;
-  margin-top: 28px;
 `;
 
 export const Info = styled.Text`
@@ -110,6 +112,7 @@ export const Input = styled.TextInput`
   height: 50px;
   margin-top: 20px;
   padding: 10px;
+  color: white;
 `;
 
 export const ButtonContainer = styled.TouchableOpacity`
@@ -127,4 +130,16 @@ export const ButtonText = styled.Text`
   font-size: 18px;
   color: white;
   font-weight: bold;
+`;
+
+export const LogoutRow = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+`;
+
+export const LogoutText = styled.Text`
+  color: white;
+  font-size: 18px;
+  margin-left: 4px;
 `;
