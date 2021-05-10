@@ -1,29 +1,21 @@
 import React, {useState, useEffect, useRef} from 'react';
-import { Alert, Modal, Dimensions } from 'react-native';
+import { Alert, Modal, Dimensions, ActivityIndicator } from 'react-native';
 import { Container, Title, Info, IconContainer, 
   CenterHorizontaly, ProfileImage, CameraContainer, CameraIcon, Center, ProfileName, InformationsContainerRow, 
-  InformationContainerColumn, Information, CenterTouchable, Input, ButtonContainer, ButtonText
+  InformationContainerColumn, Information, CenterTouchable, Input, ButtonContainer, ButtonText, LogoutRow, LogoutText,
+  Header
 } from './styles';
 import firebase, {Database, Storage} from '../../../env/firebase';
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Camera } from 'expo-camera';
+import { MaterialIcons} from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import { differenceInDays } from 'date-fns';
 import { ScrollView } from 'react-native-gesture-handler';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height;
-
-const CameraComponent: React.FC = () => {
-  return (
-    <CameraContainer>
-      <Camera style={{flex: 1}}></Camera>
-    </CameraContainer>
-  )
-}
-
 const Profile: React.FC = () => {
+  const dispatcher = useDispatch();
   const [cameraRef, setCameraRef] = useState<any>();
   const [displayName, setDisplayName] = useState<string>("");
   const [exercises, setExercises] = useState<string>("");
@@ -35,12 +27,21 @@ const Profile: React.FC = () => {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
+  const [requestChangePassword, setRequestChangePassword] = useState<boolean>(false);
+  const resetPasswordSelector = useSelector((state:any) => state?.resetPassword);
+  const navigator = useNavigation();
 
 
   useEffect(() => {
     setDisplayName(firebase.auth().currentUser?.displayName || "");
     getUserInfo();
   }, [])
+
+  useEffect(() => {
+    if(resetPasswordSelector?.changePasswordSuccess) {
+      setRequestChangePassword(false);
+    }
+  }, [resetPasswordSelector?.changePasswordSuccess])
 
   async function getUserInfo() {
     setDisplayImage(firebase.auth().currentUser?.photoURL || "");
@@ -52,8 +53,13 @@ const Profile: React.FC = () => {
     setDate(realDate);
     const gettedDate = realDate.split('/');
     const averagePeriod = differenceInDays(Date.now(), new Date(parseInt(gettedDate[2]), parseInt(gettedDate[1]) - 1, parseInt(gettedDate[0]), 0, 0));
-    const averagePlaceholder = parseInt(exercises) / averagePeriod;
-    setAverage(averagePlaceholder);
+    const averagePlaceholder = parseInt(userData?.exercisesCompleted) / averagePeriod;
+    if(!averagePlaceholder) {
+      setAverage(0);
+    }
+    else {
+      setAverage(averagePlaceholder);
+    } 
     setContentIsLoad(true);
   }
 
@@ -98,10 +104,27 @@ const Profile: React.FC = () => {
     )
   }
 
+  function submitChangePassword() {
+    setRequestChangePassword(true);
+    if(confirmNewPassword && newPassword) {
+      dispatcher({type: 'CHANGE_PASSWORD', currentPassword, newPassword});
+    }
+  }
+
   return (
     <>
       <Container>
           <ScrollView>
+            <Header>
+              <Title>Perfil</Title>
+              <LogoutRow onPress={async () => {
+                await firebase.auth().signOut();
+                navigator.navigate('Login');
+              }}>
+                <MaterialIcons name="logout" size={24} color="white" />
+                <LogoutText>Sair</LogoutText>
+              </LogoutRow>
+            </Header>
             <CenterHorizontaly>
               {!renderDisplayImage() ?
                 <IconContainer onPress={() => {
@@ -138,23 +161,30 @@ const Profile: React.FC = () => {
             </CenterHorizontaly>
             <Title>Alterar senha</Title>
             <Center>
-              <Input value={currentPassword} onChangeText={(e) => {
+              <Input autoCapitalize="none" value={currentPassword} onChangeText={(e) => {
                 setCurrentPassword(e);
               }} placeholderTextColor="white" secureTextEntry={true} placeholder="Digite sua senha atual"/>
             </Center>
             <Center>
-              <Input value={newPassword} onChangeText={(e) => {
+              <Input autoCapitalize="none" value={newPassword} onChangeText={(e) => {
                 setNewPassword(e);
               }} placeholderTextColor="white" secureTextEntry={true} placeholder="Digite sua nova senha"/>
             </Center>
             <Center>
-              <Input value={confirmNewPassword} onChangeText={(e) => {
+              <Input autoCapitalize="none" value={confirmNewPassword} onChangeText={(e) => {
                 setConfirmNewPassword(e);
               }} placeholderTextColor="white" secureTextEntry={true} placeholder="Confirme sua nova senha"/>
             </Center>
             <Center>
-              <ButtonContainer>
-                <ButtonText>Confimar</ButtonText>
+              <ButtonContainer onPress={() => {
+                submitChangePassword();
+              }}>
+                {
+                  !requestChangePassword ?
+                  <ButtonText>Confimar</ButtonText>
+                  :
+                  <ActivityIndicator size="small" color="white"></ActivityIndicator>
+                }
               </ButtonContainer>
             </Center>
           </ScrollView>

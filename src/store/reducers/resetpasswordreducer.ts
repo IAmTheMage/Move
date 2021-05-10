@@ -1,6 +1,8 @@
 interface STATE {
   success?: boolean;
   fail?: boolean;
+  changePasswordSuccess?: boolean;
+  changePasswordFail?: boolean;
 }
 
 const INITIAL_STATE: STATE = {
@@ -14,6 +16,12 @@ function resetPassword(state = INITIAL_STATE,action: any) {
       return state;
     case 'SEND_PASSWORD_RESET_EMAIL_FAIL':
       state = {fail: true, success: false};
+      return state;
+    case 'CHANGE_PASSWORD_SUCCESS':
+      state = {...state, changePasswordSuccess: true, changePasswordFail: false};
+      return state;
+    case 'CHANGE_PASSWORD_FAIL':
+      state = {...state, changePasswordFail: true, changePasswordSuccess: false};
       return state;
     default:
       return state;
